@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - Mystic Tarot Shop{% endblock %}
+
+{% block content %}
+<div class="flex justify-center">
+    <div class="max-w-5xl w-full">
+        <a href="/" class="btn btn-ghost mb-4">← Back to Shop</a>
+
+        <div class="card lg:card-side bg-base-100 shadow-xl">
+            <figure class="lg:w-1/2 bg-base-200 flex items-center justify-center p-12">
+                <span class="text-9xl">🃏</span>
+            </figure>
+
+            <div class="card-body lg:w-1/2">
+                <h1 class="card-title text-3xl">{{ product.name }}</h1>
+                <p class="text-lg text-base-content/70">by {{ product.author }}</p>
+
+                <div class="divider"></div>
+
+                <p class="text-base-content/80">{{ product.description }}</p>
+
+                <div class="grid grid-cols-2 gap-4 my-4">
+                    <div>
+                        <p class="text-sm text-base-content/60">Publisher</p>
+                        <p class="font-semibold">{{ product.publisher }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-base-content/60">Language</p>
+                        <p class="font-semibold">{{ product.language }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-base-content/60">Dimensions</p>
+                        <p class="font-semibold">{{ product.dimensions }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-base-content/60">Weight</p>
+                        <p class="font-semibold">{{ product.weight }} lbs</p>
+                    </div>
+                    {% if product.isbn_13 %}
+                    <div>
+                        <p class="text-sm text-base-content/60">ISBN-13</p>
+                        <p class="font-semibold">{{ product.isbn_13 }}</p>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <p class="text-sm text-base-content/60">In Stock</p>
+                        <p class="font-semibold">{{ product.qty }} available</p>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="card-actions justify-between items-center">
+                    <span class="text-3xl font-bold text-primary">${{ "%.2f"|format(product.price) }}</span>
+                    <button class="btn btn-primary btn-lg">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

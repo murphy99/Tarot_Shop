@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center mb-12">
+    <h1 class="text-4xl font-bold mb-4">Discover Your Perfect Tarot Deck</h1>
+    <p class="text-lg text-base-content/70">Explore our curated collection of mystical tarot decks</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for product in products %}
+    <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
+        <figure class="px-10 pt-10">
+            <div class="bg-base-200 rounded-xl w-full h-64 flex items-center justify-center">
+                <span class="text-6xl">🃏</span>
+            </div>
+        </figure>
+        <div class="card-body">
+            <h2 class="card-title">{{ product.name }}</h2>
+            <p class="text-sm text-base-content/70">by {{ product.author }}</p>
+            <p class="text-sm line-clamp-2">{{ product.description }}</p>
+            <div class="card-actions justify-between items-center mt-4">
+                <span class="text-2xl font-bold">${{ "%.2f"|format(product.price) }}</span>
+                <a href="/product/{{ product.id }}" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

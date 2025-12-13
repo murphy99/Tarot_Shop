@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Cart - Mystic Tarot Shop{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8">Shopping Cart</h1>
+
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+            <!-- Empty cart message -->
+            <div class="text-center py-12">
+                <span class="text-6xl mb-4 block">🛒</span>
+                <p class="text-xl text-base-content/70 mb-4">Your cart is empty</p>
+                <a href="/" class="btn btn-primary">Continue Shopping</a>
+            </div>
+
+            <!-- Cart items would go here when implemented -->
+            <!-- For now, showing empty state -->
+        </div>
+    </div>
+
+    <!-- Order summary (hidden when cart is empty) -->
+    <div class="card bg-base-100 shadow-xl mt-6 hidden">
+        <div class="card-body">
+            <h2 class="card-title">Order Summary</h2>
+            <div class="divider"></div>
+            <div class="flex justify-between mb-2">
+                <span>Subtotal</span>
+                <span>$0.00</span>
+            </div>
+            <div class="flex justify-between mb-2">
+                <span>Shipping</span>
+                <span>$5.99</span>
+            </div>
+            <div class="divider"></div>
+            <div class="flex justify-between text-xl font-bold">
+                <span>Total</span>
+                <span>$5.99</span>
+            </div>
+            <button class="btn btn-primary btn-block mt-4">Proceed to Checkout</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
