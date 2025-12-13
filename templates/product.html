@@ -53,10 +53,36 @@
 
                 <div class="card-actions justify-between items-center">
                     <span class="text-3xl font-bold text-primary">${{ "%.2f"|format(product.price) }}</span>
-                    <button class="btn btn-primary btn-lg">Add to Cart</button>
+                    <button onclick="addToCart({{ product.id }})" class="btn btn-primary btn-lg">Add to Cart</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+async function addToCart(productId) {
+    try {
+        const response = await fetch(`/add-to-cart/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            // Update cart badge
+            document.querySelector('.indicator-item').textContent = data.cart_count;
+
+            // Show success message
+            alert('Added to cart!');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to add to cart');
+    }
+}
+</script>
 {% endblock %}

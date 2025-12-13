@@ -6,28 +6,52 @@
 <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold mb-8">Shopping Cart</h1>
 
-    <div class="card bg-base-100 shadow-xl">
+    {% if cart_items %}
+    <div class="card bg-base-100 shadow-xl mb-6">
         <div class="card-body">
-            <!-- Empty cart message -->
-            <div class="text-center py-12">
-                <span class="text-6xl mb-4 block">🛒</span>
-                <p class="text-xl text-base-content/70 mb-4">Your cart is empty</p>
-                <a href="/" class="btn btn-primary">Continue Shopping</a>
-            </div>
+            {% for item in cart_items %}
+            <div class="flex items-center justify-between py-4 {% if not loop.last %}border-b{% endif %}">
+                <div class="flex items-center gap-4 flex-1">
+                    <div class="bg-base-200 rounded-lg w-20 h-20 flex items-center justify-center">
+                        <span class="text-3xl">🃏</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg">{{ item.name }}</h3>
+                        <p class="text-sm text-base-content/70">by {{ item.author }}</p>
+                        <p class="text-primary font-semibold">${{ "%.2f"|format(item.price) }}</p>
+                    </div>
+                </div>
 
-            <!-- Cart items would go here when implemented -->
-            <!-- For now, showing empty state -->
+                <div class="flex items-center gap-4">
+                    <div class="join">
+                        <a href="/update-cart/{{ item.id }}/decrease" class="btn btn-sm join-item">-</a>
+                        <button class="btn btn-sm join-item no-animation">{{ item.quantity }}</button>
+                        <a href="/update-cart/{{ item.id }}/increase" class="btn btn-sm join-item">+</a>
+                    </div>
+
+                    <div class="text-right min-w-[80px]">
+                        <p class="font-bold">${{ "%.2f"|format(item.price * item.quantity) }}</p>
+                    </div>
+
+                    <a href="/remove-from-cart/{{ item.id }}" class="btn btn-ghost btn-sm btn-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
 
-    <!-- Order summary (hidden when cart is empty) -->
-    <div class="card bg-base-100 shadow-xl mt-6 hidden">
+    <!-- Order summary -->
+    <div class="card bg-base-100 shadow-xl">
         <div class="card-body">
             <h2 class="card-title">Order Summary</h2>
             <div class="divider"></div>
             <div class="flex justify-between mb-2">
                 <span>Subtotal</span>
-                <span>$0.00</span>
+                <span>${{ "%.2f"|format(total) }}</span>
             </div>
             <div class="flex justify-between mb-2">
                 <span>Shipping</span>
@@ -36,10 +60,23 @@
             <div class="divider"></div>
             <div class="flex justify-between text-xl font-bold">
                 <span>Total</span>
-                <span>$5.99</span>
+                <span>${{ "%.2f"|format(total + 5.99) }}</span>
             </div>
             <button class="btn btn-primary btn-block mt-4">Proceed to Checkout</button>
         </div>
     </div>
+
+    {% else %}
+    <!-- Empty cart message -->
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+            <div class="text-center py-12">
+                <span class="text-6xl mb-4 block">🛒</span>
+                <p class="text-xl text-base-content/70 mb-4">Your cart is empty</p>
+                <a href="/" class="btn btn-primary">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
