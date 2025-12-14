@@ -7,13 +7,6 @@
     <div class="max-w-5xl w-full">
         <a href="/" class="btn btn-ghost mb-4">← Back to Shop</a>
 
-        <!-- Toast notification -->
-        <div id="toast" class="toast toast-top toast-end hidden">
-            <div class="alert alert-success">
-                <span>✓ Added to cart!</span>
-            </div>
-        </div>
-
         <div class="card lg:card-side bg-base-100 shadow-xl">
             <figure class="lg:w-1/2 bg-base-200 flex items-center justify-center p-12">
                 <span class="text-9xl">🃏</span>
@@ -57,6 +50,11 @@
                 </div>
 
                 <div class="divider"></div>
+
+                <!-- Toast notification above button -->
+                <div id="toast" class="alert alert-success mb-4 hidden transition-all">
+                    <span>✓ Added to cart!</span>
+                </div>
 
                 <div class="card-actions justify-between items-center">
                     <span class="text-3xl font-bold text-primary">${{ "%.2f"|format(product.price) }}</span>
