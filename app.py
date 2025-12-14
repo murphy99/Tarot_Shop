@@ -1,6 +1,7 @@
 from flask import Flask, render_template, session, redirect, url_for, request, jsonify
 from models import db, Product
 
+
 app = Flask(__name__)
 
 # Configure the database
@@ -87,5 +88,7 @@ def update_cart(product_id, action):
         session.modified = True
     return redirect(url_for('cart'))
 
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
+
