@@ -1,6 +1,5 @@
 from flask import Flask, render_template, session, redirect, url_for, request, jsonify
 from models import db, Product
-from waitress import serve
 
 
 app = Flask(__name__)
@@ -90,7 +89,7 @@ def update_cart(product_id, action):
     return redirect(url_for('cart'))
 
 
-if __name__ == '__main__':
-    serve(app, host='0.0.0.0', port=5000)
 
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
 
