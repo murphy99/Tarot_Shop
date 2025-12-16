@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout - Mystic Tarot Shop{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8">Checkout</h1>
+
+    <div class="grid lg:grid-cols-3 gap-6">
+        <!-- Checkout Form -->
+        <div class="lg:col-span-2">
+            <form action="/process-checkout" method="POST" class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <!-- Contact Information -->
+                    <h2 class="text-xl font-bold mb-4">Contact Information</h2>
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">Full Name *</span></label>
+                            <input type="text" name="name" class="input input-bordered" required>
+                        </div>
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">Email *</span></label>
+                            <input type="email" name="email" class="input input-bordered" required>
+                        </div>
+                        <div class="form-control md:col-span-2">
+                            <label class="label"><span class="label-text">Phone</span></label>
+                            <input type="tel" name="phone" class="input input-bordered">
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Shipping Address -->
+                    <h2 class="text-xl font-bold mb-4">Shipping Address</h2>
+                    <div class="grid gap-4 mb-6">
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">Address *</span></label>
+                            <input type="text" name="address" class="input input-bordered" required>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="form-control">
+                                <label class="label"><span class="label-text">City *</span></label>
+                                <input type="text" name="city" class="input input-bordered" required>
+                            </div>
+                            <div class="form-control">
+                                <label class="label"><span class="label-text">Province/State *</span></label>
+                                <input type="text" name="state" class="input input-bordered" required>
+                            </div>
+                        </div>
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">Postal Code *</span></label>
+                            <input type="text" name="postal_code" class="input input-bordered" required>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Shipping Method -->
+                    <h2 class="text-xl font-bold mb-4">Shipping Method</h2>
+                    <div class="form-control mb-6">
+                        <label class="label cursor-pointer justify-start gap-4">
+                            <input type="radio" name="shipping_method" value="canada_post" class="radio" checked>
+                            <div>
+                                <span class="label-text font-semibold">Canada Post</span>
+                                <p class="text-sm text-base-content/60">5-7 business days - $5.99</p>
+                            </div>
+                        </label>
+                        <label class="label cursor-pointer justify-start gap-4">
+                            <input type="radio" name="shipping_method" value="courier" class="radio">
+                            <div>
+                                <span class="label-text font-semibold">Courier</span>
+                                <p class="text-sm text-base-content/60">2-3 business days - $12.99</p>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Payment Placeholder -->
+                    <h2 class="text-xl font-bold mb-4">Payment</h2>
+                    <div class="alert alert-info mb-4">
+                        <span>Payment processing will be added in a future update.</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">Place Order</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="lg:col-span-1">
+            <div class="card bg-base-100 shadow-xl sticky top-4">
+                <div class="card-body">
+                    <h2 class="card-title">Order Summary</h2>
+                    <div class="divider"></div>
+
+                    {% for item in cart_items %}
+                    <div class="flex justify-between text-sm mb-2">
+                        <span>{{ item.name }} x{{ item.quantity }}</span>
+                        <span>${{ "%.2f"|format(item.price * item.quantity) }}</span>
+                    </div>
+                    {% endfor %}
+
+                    <div class="divider"></div>
+                    <div class="flex justify-between mb-2">
+                        <span>Subtotal</span>
+                        <span>${{ "%.2f"|format(total) }}</span>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <span>Shipping</span>
+                        <span id="shipping-cost">$5.99</span>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="flex justify-between text-xl font-bold">
+                        <span>Total</span>
+                        <span id="total-cost">${{ "%.2f"|format(total + 5.99) }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Update shipping cost when method changes
+document.querySelectorAll('input[name="shipping_method"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const shippingCost = this.value === 'courier' ? 12.99 : 5.99;
+        const subtotal = {{ total }};
+        document.getElementById('shipping-cost').textContent = '$' + shippingCost.toFixed(2);
+        document.getElementById('total-cost').textContent = '$' + (subtotal + shippingCost).toFixed(2);
+    });
+});
+</script>
+{% endblock %}
