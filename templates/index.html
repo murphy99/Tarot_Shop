@@ -6,24 +6,44 @@
     <p class="text-lg text-base-content/70">Explore our curated collection of mystical tarot decks</p>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     {% for product in products %}
-    <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
-        <figure class="px-10 pt-10">
-            <div class="bg-base-200 rounded-xl w-full h-64 flex items-center justify-center">
-                <span class="text-6xl">🃏</span>
-            </div>
+    <a href="/product/{{ product.id }}" class="card bg-base-100 hover:shadow-xl transition-shadow cursor-pointer">
+        <figure class="bg-base-200 aspect-[3/4] flex items-center justify-center">
+            <span class="text-6xl">🃏</span>
         </figure>
-        <div class="card-body">
-            <h2 class="card-title">{{ product.name }}</h2>
-            <p class="text-sm text-base-content/70">by {{ product.author }}</p>
-            <p class="text-sm line-clamp-2">{{ product.description }}</p>
-            <div class="card-actions justify-between items-center mt-4">
-                <span class="text-2xl font-bold">${{ "%.2f"|format(product.price) }}</span>
-                <a href="/product/{{ product.id }}" class="btn btn-primary">View Details</a>
+        <div class="card-body p-4">
+            <h2 class="card-title text-base">{{ product.name }}</h2>
+            <p class="text-sm text-base-content/60">{{ product.author }}</p>
+            <p class="text-sm text-base-content/70 line-clamp-2 mt-2">{{ product.description }}</p>
+            <div class="flex justify-between items-center mt-4">
+                <span class="text-lg font-bold">${{ "%.2f"|format(product.price) }}</span>
+                <button onclick="event.preventDefault(); event.stopPropagation(); addToCart({{ product.id }})" class="btn btn-primary btn-sm">Add to Cart</button>
             </div>
         </div>
-    </div>
+    </a>
     {% endfor %}
 </div>
+
+<script>
+async function addToCart(productId) {
+    try {
+        const response = await fetch(`/add-to-cart/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            document.querySelector('.indicator-item').textContent = data.cart_count;
+            // Could add a toast notification here too if you want
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+</script>
 {% endblock %}
