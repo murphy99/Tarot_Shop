@@ -8,12 +8,12 @@
 
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     {% for product in products %}
-    <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
+    <div class="card bg-white shadow-xl hover:shadow-2xl transition-shadow">
         <a href="/product/{{ product.id }}">
         <figure class="px-0 pt-0">
-            <div class="bg-base-200 rounded-xl w-full h-64 flex items-center justify-center">
-                <span class="text-6xl">🃏</span>
-            </div> 
+            <img src="{{ url_for('static', filename='images/' + product.image) }}" 
+                alt="{{ product.name }}" 
+                class="rounded-xl w-full h-64 object-cover object-scale-down bg-white">
         </figure> </a>
         <div class="card-body">
             <h2 class="card-title">{{ product.name }}</h2>

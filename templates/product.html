@@ -8,8 +8,10 @@
         <a href="/" class="btn btn-ghost mb-4">← Back to Shop</a>
 
         <div class="card lg:card-side bg-base-100 shadow-xl">
-            <figure class="lg:w-1/2 bg-base-200 flex items-center justify-center p-12">
-                <span class="text-9xl">🃏</span>
+            <figure class="lg:w-1/2 bg-white flex items-center justify-center p-12">
+                <img src="{{ url_for('static', filename='images/' + product.image) }}" 
+                    alt="{{ product.name }}" 
+                    class="max-h-96 object-contain">
             </figure>
 
             <div class="card-body lg:w-1/2">
